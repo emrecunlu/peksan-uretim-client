@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import loader from '@/store/features/loader'
 import employee from '@/store/features/employee'
+import production from '@/store/features/production'
 
 const store = configureStore({
   reducer: {
     loader,
-    employee
+    employee,
+    production
   }
 })
 

@@ -1,7 +1,7 @@
 interface Hygiene {
   clear: number
   question: number
-  description: string | null
+  desc: string | null
 }
 
 export interface ISaveQuestionsDto {

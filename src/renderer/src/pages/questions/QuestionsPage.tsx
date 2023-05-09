@@ -1,5 +1,5 @@
 import AuthRepository from '@/repositories/AuthRepository'
-import { useEmployee } from '@/store/features/employee'
+import { login, useEmployee } from '@/store/features/employee'
 import { IQuestion } from '@/utils/interfaces/Question'
 import {
   Box,
@@ -9,13 +9,12 @@ import {
   CardHeader,
   Container,
   TextField,
-  responsiveFontSizes
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { AiFillSave } from 'react-icons/ai'
 import { BsFillHandThumbsUpFill, BsHandThumbsDownFill } from 'react-icons/bs'
-import ToastHelper from '@/utils/helpers/ToastHelper'
+import store from '@/store'
 
 interface IAnswer {
   isClear: boolean
@@ -31,6 +30,7 @@ const QuestionsPage = () => {
   const [step, setStep] = useState(0)
 
   const { employee, machine, workOrder } = useEmployee()
+  const navigate = useNavigate()
 
   if (!employee || !machine || !workOrder) {
     return <Navigate to="/" />
@@ -66,14 +66,15 @@ const QuestionsPage = () => {
         staff: parseInt(employee.staffCode),
         hygiene: answers.map((answer) => ({
           clear: answer.isClear ? 1 : 0,
-          description: answer.description,
+          desc: answer.description,
           question: answer.questionId
         }))
       })
     ).data
 
     if (response.success) {
-      ToastHelper.success('Main!')
+      store.dispatch(login())
+      navigate('/')
     }
   }
 

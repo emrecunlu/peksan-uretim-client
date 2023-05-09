@@ -1,7 +1,14 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { SerialPort } from 'serialport'
+
+const MESSAGES = {
+  'error-title': 'Hata!'
+}
+let serialPort2: SerialPort = new SerialPort({ path: 'COM3', baudRate: 9600 })
+let serialPort: SerialPort | null
 
 function createWindow(): void {
   // Create the browser window.
@@ -17,8 +24,63 @@ function createWindow(): void {
     }
   })
 
-  mainWindow.on('ready-to-show', () => {
+  const openSerialPort = async (path: string) => {
+    const portList = await SerialPort.list()
+    const port = portList.find((val) => val.path.toLocaleLowerCase() === path.toLocaleLowerCase())
+
+    if (!port) {
+      dialog.showErrorBox(MESSAGES['error-title'], `${path} port'u bulunamadı!`)
+      return
+    }
+
+    serialPort = new SerialPort({
+      path,
+      baudRate: 9600,
+      autoOpen: true
+    })
+
+    serialPort.on('open', () => {
+      dialog.showMessageBox(mainWindow, {
+        type: 'info',
+        title: 'Başarılı',
+        message: `${path} port bağlantısı başarılı.`
+      })
+    })
+
+    serialPort.on('data', (received: string) => {
+      const regex = /[-+]?\d*\.\d+|\d+/g
+      const matches = received.toString().match(regex)
+      dialog.showMessageBox(mainWindow, {
+        title: 'Data',
+        message: JSON.stringify(matches)
+      })
+    })
+  }
+
+  ipcMain.on('connect-com-port', (event, data: string) => {
+    if (serialPort && serialPort.isOpen) {
+      serialPort.close()
+    }
+
+    openSerialPort(data)
+  })
+
+  ipcMain.handle('get-serial-ports', async () => {
+    const portLists = await SerialPort.list()
+
+    return portLists
+  })
+
+  ipcMain.on('send-serial-data', (event, data: string) => {
+    console.log(serialPort2.isOpen)
+    serialPort2.write(data)
+  })
+
+  ipcMain.handle('get-active-port', () => serialPort)
+
+  mainWindow.on('ready-to-show', async () => {
     mainWindow.show()
+    openSerialPort('COM4')
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -68,4 +130,6 @@ app.on('window-all-closed', () => {
 })
 
 // In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
+// code. You can also put them in separate files and require them here
+
+// Tüm seriportları listeler ve geri döndürür.
