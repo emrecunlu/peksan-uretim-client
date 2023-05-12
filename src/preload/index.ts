@@ -19,11 +19,13 @@ declare global {
 
 export interface IApi {
   getSerialPorts: () => Promise<IPortInfo[]>
+  getHostName: () => Promise<string>
 }
 
 // Custom APIs for renderer
 const api: IApi = {
-  getSerialPorts: async () => await ipcRenderer.invoke('get-serial-ports')
+  getSerialPorts: async () => await ipcRenderer.invoke('get-serial-ports'),
+  getHostName: async () => await ipcRenderer.invoke('get-host-name')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

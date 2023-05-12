@@ -1,3 +1,6 @@
+import store from '@/store'
+import { setScale, setScaleCount, useProduction } from '@/store/features/production'
+import { ProductionType } from '@/utils/interfaces/enums/ProductionType'
 import {
   Box,
   TextField,
@@ -13,6 +16,8 @@ const ProductInputGroups = () => {
   const [ports, setPorts] = useState<IPortInfo[]>([])
   const [port, setPort] = useState<string>('')
 
+  const { minMax, terazi, productionType } = useProduction()
+
   const getSerialPorts = async () => {
     const serialPorts = await window.api.getSerialPorts()
 
@@ -27,6 +32,10 @@ const ProductInputGroups = () => {
 
   useEffect(() => {
     getSerialPorts()
+
+    window.electron.ipcRenderer.on('scale-data', (event, data: { net: number; dara: number }) => {
+      store.dispatch(setScale(data))
+    })
   }, [])
 
   return (
@@ -51,21 +60,21 @@ const ProductInputGroups = () => {
         sx={{ flex: 1 }}
         label="Gramaj"
         fullWidth
-        value={500}
+        value={minMax.birimAgirlik}
         placeholder="Birim ağırlık"
         InputProps={{
           readOnly: true,
-          style: {
+          style: {  
             fontWeight: 600
           }
         }}
       />
       <TextField
         sx={{ flex: 1 }}
-        label="Brüt"
+        label="Brüt KG"
         fullWidth
-        value={500}
-        placeholder="Birim ağırlık"
+        value={terazi.brut}
+        placeholder="Brüt KG"
         InputProps={{
           readOnly: true,
           style: {
@@ -78,7 +87,7 @@ const ProductInputGroups = () => {
         sx={{ flex: 1 }}
         label="Dara"
         fullWidth
-        value={500}
+        value={terazi.dara}
         placeholder="Dara"
         InputProps={{
           readOnly: true,
@@ -89,10 +98,10 @@ const ProductInputGroups = () => {
       />
       <TextField
         sx={{ flex: 1 }}
-        label="Net"
+        label="KG"
         fullWidth
-        value={500}
-        placeholder="Net"
+        value={terazi.net}
+        placeholder="KG"
         InputProps={{
           readOnly: true,
           style: {
@@ -101,13 +110,13 @@ const ProductInputGroups = () => {
         }}
       />
       <TextField
-        sx={{ flex: 1 }}
         label="Adet"
         fullWidth
-        value={500}
+        value={terazi.adet}
+        onChange={(e) => store.dispatch(setScaleCount(e.target.value))}
         placeholder="Adet"
         InputProps={{
-          readOnly: true,
+          readOnly: productionType !== ProductionType.Numune,
           style: {
             fontWeight: 600
           }

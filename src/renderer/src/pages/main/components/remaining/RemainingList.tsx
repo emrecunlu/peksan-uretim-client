@@ -39,19 +39,6 @@ const RemainingList = () => {
                   <ListItemText
                     primary={
                       <Typography fontWeight="700" variant="body2" color="red">
-                        Max Adet: {minMax.maxad}
-                      </Typography>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            </Grid>
-            <Grid item xs={6}>
-              <ListItem disableGutters disablePadding>
-                <ListItemButton>
-                  <ListItemText
-                    primary={
-                      <Typography fontWeight="700" variant="body2" color="red">
                         Min Adet: {minMax.minad}
                       </Typography>
                     }
@@ -65,7 +52,7 @@ const RemainingList = () => {
                   <ListItemText
                     primary={
                       <Typography fontWeight="700" variant="body2" color="red">
-                        Max Kg: {minMax.maxkg}
+                        Max Adet: {minMax.maxad}
                       </Typography>
                     }
                   />
@@ -79,6 +66,19 @@ const RemainingList = () => {
                     primary={
                       <Typography fontWeight="700" variant="body2" color="red">
                         Min Kg: {minMax.minkg}
+                      </Typography>
+                    }
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Grid>
+            <Grid item xs={6}>
+              <ListItem disableGutters disablePadding>
+                <ListItemButton>
+                  <ListItemText
+                    primary={
+                      <Typography fontWeight="700" variant="body2" color="red">
+                        Max Kg: {minMax.maxkg}
                       </Typography>
                     }
                   />

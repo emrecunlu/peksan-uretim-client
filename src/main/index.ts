@@ -1,5 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
+import os from 'os'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { SerialPort } from 'serialport'
@@ -50,10 +51,21 @@ function createWindow(): void {
     serialPort.on('data', (received: string) => {
       const regex = /[-+]?\d*\.\d+|\d+/g
       const matches = received.toString().match(regex)
-      dialog.showMessageBox(mainWindow, {
-        title: 'Data',
-        message: JSON.stringify(matches)
-      })
+
+      if (matches && matches.length === 4) {
+        const data = {
+          net: parseFloat(matches[0]),
+          dara: parseFloat(matches[3])
+        }
+
+        if (data.dara <= 0.1) {
+          return dialog.showErrorBox('Hata', 'Dara Verisi Hatalı veya Girilmemiş')
+        }
+
+        mainWindow.webContents.send('scale-data', data)
+      } else {
+        return dialog.showErrorBox('Hata', 'Terazi Verileri Hatalı')
+      }
     })
   }
 
@@ -77,6 +89,8 @@ function createWindow(): void {
   })
 
   ipcMain.handle('get-active-port', () => serialPort)
+
+  ipcMain.handle('get-host-name', () => os.hostname())
 
   mainWindow.on('ready-to-show', async () => {
     mainWindow.show()

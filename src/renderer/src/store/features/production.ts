@@ -1,9 +1,11 @@
 import WorkOrderRepository from '@/repositories/WorkOrderRepository'
 import { ProcessType } from '@/utils/enums/ProcessType'
 import { IMinMax, IToBeProduced } from '@/utils/interfaces/WorkOrder'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
+import { ITerazi } from '@/utils/interfaces/Terazi'
+import { ProductionType } from '@/utils/interfaces/enums/ProductionType'
 
 export const fetchMinMaxValue = createAsyncThunk('production/minMax', async (workOrder: string) => {
   const { data: result } = (await WorkOrderRepository.getMinMax(workOrder)).data
@@ -21,10 +23,15 @@ export interface IState {
   loading: ProcessType
   minMax: IMinMax
   produced: IToBeProduced
+  terazi: ITerazi
+  productionType: ProductionType
+  isAuth: boolean
 }
 
 const initialState: IState = {
   loading: ProcessType.Idle,
+  productionType: ProductionType.Uretim,
+  isAuth: false,
   minMax: {
     birimAgirlik: 0,
     maxad: 0,
@@ -32,6 +39,13 @@ const initialState: IState = {
     minad: 0,
     minkg: 0,
     serino: ''
+  },
+  terazi: {
+    adet: 0,
+    brut: 0,
+    dara: 0,
+    gramaj: 0,
+    net: 0
   },
   produced: {
     remaining: 0,
@@ -47,7 +61,44 @@ const initialState: IState = {
 const production = createSlice({
   name: 'production',
   initialState,
-  reducers: {},
+  reducers: {
+    setProductionType: (state, action: PayloadAction<ProductionType>) => {
+      state.productionType = action.payload
+    },
+    setAuth: (state, action: PayloadAction<boolean>) => {
+      state.isAuth = action.payload
+    },
+    clearScale: (state) => {
+      state.terazi = {
+        adet: 0,
+        brut: 0,
+        dara: 0,
+        gramaj: 0,
+        net: 0
+      }
+    },
+    setScaleCount: (state, action: PayloadAction<string>) => {
+      const val = parseFloat(action.payload)
+
+      if (isNaN(val)) {
+        state.terazi.adet = 0
+        state.terazi.net = 0
+      } else {
+        state.terazi.adet = val
+        state.terazi.net = (val / 1000) * state.terazi.gramaj
+      }
+    },
+    setScale: (state, action: PayloadAction<{ net: number; dara: number }>) => {
+      const { dara, net } = action.payload
+      state.terazi = {
+        adet: Math.floor((net * 1000) / state.minMax.birimAgirlik),
+        brut: net + dara,
+        dara,
+        gramaj: state.minMax.birimAgirlik,
+        net
+      }
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchMinMaxValue.fulfilled, (state, action) => {
       const { birimAgirlik, maxad, maxkg, minad, minkg, serino } = action.payload
@@ -75,4 +126,6 @@ const production = createSlice({
 })
 
 export default production.reducer
+export const { setProductionType, setAuth, setScale, setScaleCount, clearScale } =
+  production.actions
 export const useProduction = () => useSelector((state: RootState) => state.production)

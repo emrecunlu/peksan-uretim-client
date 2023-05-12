@@ -1,10 +1,10 @@
-import BaseModal from '@/components/common/BaseModal'
 import { IModalProps } from '@/utils/interfaces/Base'
 import { IWorkOrder } from '@/utils/interfaces/WorkOrder'
 import { DialogContent, DialogActions, Button } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useEffect, useState } from 'react'
 import { AiFillSave } from 'react-icons/ai'
+import CustomDialog from '@/components/common/CustomDialog'
 
 interface IProps extends IModalProps {
   onClose: () => void
@@ -43,7 +43,7 @@ const WorkOrderSelectModal = ({ open, data, onSave, onClose }: IProps) => {
   }
 
   return (
-    <BaseModal title="İşemri Listesi" onClose={onClose} open={open} fullWidth maxWidth="xl">
+    <CustomDialog fullWidth maxWidth="lg" onClose={onClose} open={open} title='İşemri Listesi'>
       <DialogContent dividers>
         <DataGrid
           rows={data}
@@ -63,7 +63,7 @@ const WorkOrderSelectModal = ({ open, data, onSave, onClose }: IProps) => {
           Kaydet
         </Button>
       </DialogActions>
-    </BaseModal>
+    </CustomDialog>
   )
 }
 

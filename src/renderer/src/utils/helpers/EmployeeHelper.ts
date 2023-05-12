@@ -29,6 +29,12 @@ class EmployeeHelper {
 
     return 2
   }
+  
+
+  static getFormattedWorkorder(workOrder: string) {
+    const pattern = /^0+/
+    return workOrder.replace(pattern, '')
+  }
 }
 
 export default EmployeeHelper

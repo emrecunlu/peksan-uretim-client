@@ -10,7 +10,7 @@ const UretilenKolilerButton = () => {
           () =>
             window.electron.ipcRenderer.send(
               'send-serial-data',
-              'TOTAL\r\nNET: 6.36 kg\r\nU / W:     4.99343  g\r\nPCS: 1274\r\nTare: 1 kg\r\n\n\n\n\n\n'
+              'TOTAL\r\nNET: 11.31 kg\r\nU / W:     4501  g\r\nPCS: 1274\r\nTare: 1.23 kg\r\n\n\n\n\n\n'
             )
 
           /* b.ağırlık * 1000 / kg = Adet */
