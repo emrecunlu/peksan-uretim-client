@@ -112,7 +112,7 @@ const SelectMachineAndEmployeePage: React.FC = () => {
                   <TextField {...params} label="Personel" placeholder="Personel seçiniz" />
                 )}
                 value={selected.employee}
-                onChange={(e, val) => setSelected((selected) => ({ ...selected, employee: val }))}
+                onChange={(_, val) => setSelected((selected) => ({ ...selected, employee: val }))}
               />
               <Autocomplete
                 options={machines}
@@ -126,7 +126,7 @@ const SelectMachineAndEmployeePage: React.FC = () => {
                   <TextField {...params} label="Makine" placeholder="Makine seçiniz" />
                 )}
                 value={selected.machine}
-                onChange={(e, val) => setSelected((selected) => ({ ...selected, machine: val }))}
+                onChange={(_, val) => setSelected((selected) => ({ ...selected, machine: val }))}
               />
             </Stack>
           </CardContent>

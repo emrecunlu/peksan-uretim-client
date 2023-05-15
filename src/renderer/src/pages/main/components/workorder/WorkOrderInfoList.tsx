@@ -79,7 +79,7 @@ const WorkOrderInfoList = () => {
         <Stack direction="column" spacing={1}>
           {Array(18)
             .fill('')
-            .map((val, index) => (
+            .map((_, index) => (
               <Skeleton
                 key={index}
                 height={40}

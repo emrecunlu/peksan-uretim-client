@@ -8,6 +8,7 @@ import { SerialPort } from 'serialport'
 const MESSAGES = {
   'error-title': 'Hata!'
 }
+
 let serialPort2: SerialPort = new SerialPort({ path: 'COM3', baudRate: 9600 })
 let serialPort: SerialPort | null
 
@@ -16,9 +17,19 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    fullscreen: true,
     show: false,
     autoHideMenuBar: false,
     ...(process.platform === 'linux' ? { icon } : {}),
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js'),
+      sandbox: false
+    }
+  })
+
+  const printWindow = new BrowserWindow({
+    show: false,
+    parent: mainWindow,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -69,7 +80,7 @@ function createWindow(): void {
     })
   }
 
-  ipcMain.on('connect-com-port', (event, data: string) => {
+  ipcMain.on('connect-com-port', (_, data: string) => {
     if (serialPort && serialPort.isOpen) {
       serialPort.close()
     }
@@ -83,7 +94,7 @@ function createWindow(): void {
     return portLists
   })
 
-  ipcMain.on('send-serial-data', (event, data: string) => {
+  ipcMain.on('send-serial-data', (_, data: string) => {
     console.log(serialPort2.isOpen)
     serialPort2.write(data)
   })
@@ -92,9 +103,21 @@ function createWindow(): void {
 
   ipcMain.handle('get-host-name', () => os.hostname())
 
+  ipcMain.on('print-label', (_, data) => {
+    printWindow.webContents.send('print-label', data)
+
+    setTimeout(() => {
+      printWindow.webContents.print({
+        silent: true,
+        printBackground: true,
+        deviceName: 'TSC TE210'
+      })
+    }, 500)
+  })
+
   mainWindow.on('ready-to-show', async () => {
     mainWindow.show()
-    openSerialPort('COM4')
+    openSerialPort('COM2')
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -102,12 +125,24 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
+  printWindow.webContents.addListener('did-finish-load', () => {
+    /*  printWindow.webContents.print({
+      silent: true,
+      printBackground: true,
+      deviceName: 'TSC TE210 (Kopya 1)'
+    }) */
+  })
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    printWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '#/print')
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    printWindow.loadFile(join(__dirname, '../renderer/index.html'), {
+      hash: '#/print'
+    })
   }
 }
 

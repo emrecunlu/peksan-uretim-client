@@ -12,13 +12,14 @@ import { useMemo, useState, useEffect } from 'react'
 const Header = () => {
   const [time, setTime] = useState<moment.Moment>(moment())
   const { machine, employee } = useEmployee()
+
   const shift: number = useMemo(() => {
     return EmployeeHelper.getShift()
   }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime((time) => time.add(1, 'seconds'))
+      setTime(moment())
     }, 1000)
 
     return () => {

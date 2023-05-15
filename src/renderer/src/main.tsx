@@ -5,14 +5,13 @@ import { Provider } from 'react-redux'
 import store from '@/store'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { CssBaseline } from '@mui/material'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
     <HashRouter>
       <App />
       <ToastContainer position="bottom-right" draggable autoClose={5000} />
-      <CssBaseline />
+     {/*  <CssBaseline /> */}
     </HashRouter>
   </Provider>
 )

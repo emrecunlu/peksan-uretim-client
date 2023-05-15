@@ -18,7 +18,7 @@ import store from '@/store'
 
 const RemainingList = () => {
   const { workOrder } = useEmployee()
-  const { loading, minMax, produced } = useProduction()
+  const { minMax, produced } = useProduction()
 
   useEffect(() => {
     store.dispatch(fetchMinMaxValue(workOrder!.isemrino))

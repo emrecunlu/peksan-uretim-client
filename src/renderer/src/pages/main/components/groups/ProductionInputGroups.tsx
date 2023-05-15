@@ -20,6 +20,7 @@ const ProductInputGroups = () => {
 
   const getSerialPorts = async () => {
     const serialPorts = await window.api.getSerialPorts()
+    /* const port = await window.api.getCurrentPort(); */
 
     setPorts(serialPorts)
   }
@@ -33,9 +34,13 @@ const ProductInputGroups = () => {
   useEffect(() => {
     getSerialPorts()
 
-    window.electron.ipcRenderer.on('scale-data', (event, data: { net: number; dara: number }) => {
+    window.electron.ipcRenderer.on('scale-data', (_, data: { net: number; dara: number }) => {
       store.dispatch(setScale(data))
     })
+
+    return () => {
+      window.electron.ipcRenderer.removeAllListeners('scale-data');
+    }
   }, [])
 
   return (
@@ -64,7 +69,7 @@ const ProductInputGroups = () => {
         placeholder="Birim ağırlık"
         InputProps={{
           readOnly: true,
-          style: {  
+          style: {
             fontWeight: 600
           }
         }}

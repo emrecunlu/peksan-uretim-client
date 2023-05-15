@@ -83,9 +83,11 @@ const production = createSlice({
       if (isNaN(val)) {
         state.terazi.adet = 0
         state.terazi.net = 0
+        state.terazi.brut = 0
       } else {
         state.terazi.adet = val
         state.terazi.net = (val / 1000) * state.terazi.gramaj
+        state.terazi.brut = val + state.terazi.dara
       }
     },
     setScale: (state, action: PayloadAction<{ net: number; dara: number }>) => {

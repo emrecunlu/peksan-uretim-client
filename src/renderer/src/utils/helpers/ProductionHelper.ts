@@ -36,6 +36,24 @@ class ProductionHelper {
 
     ToastHelper.success(MESSAGES['success-production'])
   }
+
+  static getProductionName(val: number) {
+    let name: string = ''
+
+    switch (val) {
+      case 1:
+        return (name = 'Numune')
+      case 2:
+        return (name = 'Fire')
+      case 3:
+        return (name = 'Renk Geçişi')
+      case 5:
+        return (name = 'Yarım Koli')
+      case 9:
+        return (name = 'Artan Etiket')
+    }
+    return name
+  }
 }
 
 export default ProductionHelper
