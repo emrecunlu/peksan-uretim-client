@@ -3,7 +3,8 @@ export const MESSAGES = {
   'copy-to-clipboard': 'Değer Kopyalandı',
   "invalid-password": "Hatalı Şifre",
   "invalid-scale": "Terazidan Gelen Veriler Hatalı",
-  "success-production": "Üretim Başarılı"
+  "success-production": "Üretim Başarılı",
+  "send-mail": "Yardım İletisi Gönderildi"
 }
 
 export const TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'

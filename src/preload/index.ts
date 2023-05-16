@@ -21,13 +21,15 @@ export interface IApi {
   getSerialPorts: () => Promise<IPortInfo[]>
   getHostName: () => Promise<string>
   getCurrentPort: () => Promise<SerialPort | null>
+  getSettingsValue: <T>(key: string) => Promise<T | undefined | null>
 }
 
 // Custom APIs for renderer
 const api: IApi = {
   getSerialPorts: async () => await ipcRenderer.invoke('get-serial-ports'),
   getHostName: async () => await ipcRenderer.invoke('get-host-name'),
-  getCurrentPort: async () => await ipcRenderer.invoke('get-active-port')
+  getCurrentPort: async () => await ipcRenderer.invoke('get-active-port'),
+  getSettingsValue: async (key: string) => await ipcRenderer.invoke('get-config', key)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

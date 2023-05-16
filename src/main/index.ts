@@ -4,6 +4,7 @@ import os from 'os'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { SerialPort } from 'serialport'
+import Store from 'electron-store'
 
 const MESSAGES = {
   'error-title': 'Hata!'
@@ -12,12 +13,13 @@ const MESSAGES = {
 let serialPort2: SerialPort = new SerialPort({ path: 'COM3', baudRate: 9600 })
 let serialPort: SerialPort | null
 
+const store = new Store()
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
-    fullscreen: true,
     show: false,
     autoHideMenuBar: false,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -63,20 +65,16 @@ function createWindow(): void {
       const regex = /[-+]?\d*\.\d+|\d+/g
       const matches = received.toString().match(regex)
 
-      if (matches && matches.length === 4) {
-        const data = {
-          net: parseFloat(matches[0]),
-          dara: parseFloat(matches[3])
-        }
-
-        if (data.dara <= 0.1) {
-          return dialog.showErrorBox('Hata', 'Dara Verisi Hatalı veya Girilmemiş')
-        }
-
-        mainWindow.webContents.send('scale-data', data)
-      } else {
-        return dialog.showErrorBox('Hata', 'Terazi Verileri Hatalı')
+      const data = {
+        net: parseFloat(matches![0] ?? 0),
+        dara: parseFloat(matches![3] ?? 0)
       }
+
+      if (data.dara <= 0.1) {
+        return dialog.showErrorBox('Hata', 'Dara Verisi Hatalı veya Girilmemiş')
+      }
+
+      mainWindow.webContents.send('scale-data', data)
     })
   }
 
@@ -103,6 +101,16 @@ function createWindow(): void {
 
   ipcMain.handle('get-host-name', () => os.hostname())
 
+  ipcMain.handle('set-config', (_, data: any) => {
+    const { key, data: el } = data
+
+    store.set(key, el)
+
+    return true
+  })
+
+  ipcMain.handle('get-config', (_, key: string) => store.get(key))
+
   ipcMain.on('print-label', (_, data) => {
     printWindow.webContents.send('print-label', data)
 
@@ -117,6 +125,7 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', async () => {
     mainWindow.show()
+    mainWindow.maximize()
     openSerialPort('COM2')
   })
 

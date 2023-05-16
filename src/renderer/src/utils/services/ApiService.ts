@@ -3,7 +3,7 @@ import store from '@/store'
 import { set as setLoader } from '@/store/features/loader'
 
 const instance = axios.create({
-  baseURL: 'http://192.168.2.62:5002/api'
+  baseURL: 'http://192.168.2.250:5005/api'
 })
 
 instance.interceptors.request.use(

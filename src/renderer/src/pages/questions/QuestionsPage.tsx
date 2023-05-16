@@ -1,15 +1,7 @@
 import AuthRepository from '@/repositories/AuthRepository'
 import { login, useEmployee } from '@/store/features/employee'
 import { IQuestion } from '@/utils/interfaces/Question'
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  TextField,
-} from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Container, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { AiFillSave } from 'react-icons/ai'
@@ -38,7 +30,7 @@ const QuestionsPage = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const { data: results } = (await AuthRepository.getHygenieQuestions(3)).data
+      const { data: results } = (await AuthRepository.getHygenieQuestions(1)).data
 
       setQuestions(results)
     }

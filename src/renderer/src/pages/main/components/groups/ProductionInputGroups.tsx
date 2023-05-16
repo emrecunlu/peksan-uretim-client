@@ -39,7 +39,7 @@ const ProductInputGroups = () => {
     })
 
     return () => {
-      window.electron.ipcRenderer.removeAllListeners('scale-data');
+      window.electron.ipcRenderer.removeAllListeners('scale-data')
     }
   }, [])
 
@@ -78,7 +78,7 @@ const ProductInputGroups = () => {
         sx={{ flex: 1 }}
         label="Brüt KG"
         fullWidth
-        value={terazi.brut}
+        value={terazi.brut.toFixed(2)}
         placeholder="Brüt KG"
         InputProps={{
           readOnly: true,
