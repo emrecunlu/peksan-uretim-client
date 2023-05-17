@@ -105,9 +105,11 @@ const SelectMachineAndEmployeePage: React.FC = () => {
                     sx={{ height: 50 }}
                     component="li"
                     {...props}
-                  >{`${option.id} - ${option.firstName} ${option.lastName}`}</Box>
+                  >{`${option.staffCode} - ${option.firstName} ${option.lastName}`}</Box>
                 )}
-                getOptionLabel={(option) => `${option.id} - ${option.firstName} ${option.lastName}`}
+                getOptionLabel={(option) =>
+                  `${option.staffCode} - ${option.firstName} ${option.lastName}`
+                }
                 renderInput={(params) => (
                   <TextField {...params} label="Personel" placeholder="Personel seçiniz" />
                 )}
@@ -118,10 +120,10 @@ const SelectMachineAndEmployeePage: React.FC = () => {
                 options={machines}
                 renderOption={(props, option) => (
                   <Box sx={{ height: 50 }} component="li" {...props}>
-                    {option.machineCode}
+                    {option.machineCode} - {option.description1}
                   </Box>
                 )}
-                getOptionLabel={(option) => option.machineCode}
+                getOptionLabel={(option) => `${option.machineCode} - ${option.description1}`}
                 renderInput={(params) => (
                   <TextField {...params} label="Makine" placeholder="Makine seçiniz" />
                 )}

@@ -35,11 +35,17 @@ const ProductInputGroups = () => {
     getSerialPorts()
 
     window.electron.ipcRenderer.on('scale-data', (_, data: { net: number; dara: number }) => {
+      console.log(data)
       store.dispatch(setScale(data))
+    })
+
+    window.electron.ipcRenderer.on('scale-data-template', (_, data: any) => {
+      console.log(data)
     })
 
     return () => {
       window.electron.ipcRenderer.removeAllListeners('scale-data')
+      window.electron.ipcRenderer.removeAllListeners('scale-data-template')
     }
   }, [])
 
@@ -78,7 +84,7 @@ const ProductInputGroups = () => {
         sx={{ flex: 1 }}
         label="Brüt KG"
         fullWidth
-        value={terazi.brut.toFixed(2)}
+        value={terazi.brut.toFixed(5)}
         placeholder="Brüt KG"
         InputProps={{
           readOnly: true,
@@ -105,7 +111,7 @@ const ProductInputGroups = () => {
         sx={{ flex: 1 }}
         label="KG"
         fullWidth
-        value={terazi.net}
+        value={terazi.net.toFixed(5)}
         placeholder="KG"
         InputProps={{
           readOnly: true,

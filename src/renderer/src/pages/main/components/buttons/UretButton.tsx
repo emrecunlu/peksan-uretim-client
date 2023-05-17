@@ -71,7 +71,7 @@ const UretButton = () => {
     <>
       <BottomButton
         onClick={handleClick}
-        disabled={!isEnabled}
+        disabled={isEnabled}
         sx={{ bgcolor: green[800], '&:hover': { bgcolor: green[600] }, '&:disabled': green[300] }}
         icon={<MdGavel size={32} />}
       >

@@ -5,6 +5,7 @@ import { MdSend } from 'react-icons/md'
 import MailRepository from '@/repositories/MailRepository'
 import ToastHelper from '@/utils/helpers/ToastHelper'
 import { MESSAGES } from '@/utils/constants'
+import { useEmployee } from '@/store/features/employee'
 
 interface IProps {
   open: boolean
@@ -22,8 +23,14 @@ const HelpFormModal = ({ onClose, open }: IProps) => {
     content: ''
   })
 
-  const handleClick = () => {
-    MailRepository.send({ subject: mail.subject, body: mail.content }).then((_) => {
+  const { machine } = useEmployee()
+
+  const handleClick = async () => {
+    const hostName = await window.api.getHostName()
+    MailRepository.send({
+      subject: `${machine?.machineCode ?? 0} - ${hostName} - ${mail.subject}`,
+      body: mail.content
+    }).then((_) => {
       ToastHelper.success(MESSAGES['send-mail'])
       onClose()
     })

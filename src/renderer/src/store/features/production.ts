@@ -70,24 +70,30 @@ const production = createSlice({
     },
     clearScale: (state) => {
       state.terazi = {
+        gramaj: 0,
         adet: 0,
         brut: 0,
         dara: 0,
-        gramaj: 0,
         net: 0
       }
     },
     setScaleCount: (state, action: PayloadAction<string>) => {
       const val = parseFloat(action.payload)
 
+      // NET = (adet / 1000) * gramaj
+      // BRUT = (adet / 1000) * gramaj + dara;
       if (isNaN(val)) {
-        state.terazi.adet = 0
-        state.terazi.net = 0
-        state.terazi.brut = 0
+        state.terazi = {
+          ...state.terazi,
+          adet: 0,
+          brut: 0,
+          dara: 0,
+          net: 0
+        }
       } else {
         state.terazi.adet = val
-        state.terazi.net = (val / 1000) * state.terazi.gramaj
-        state.terazi.brut = val + state.terazi.dara
+        state.terazi.net = (state.terazi.adet / 1000) * state.terazi.gramaj
+        state.terazi.brut = (state.terazi.adet / 1000) * state.terazi.gramaj + state.terazi.dara
       }
     },
     setScale: (state, action: PayloadAction<{ net: number; dara: number }>) => {
@@ -104,6 +110,7 @@ const production = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchMinMaxValue.fulfilled, (state, action) => {
       const { birimAgirlik, maxad, maxkg, minad, minkg, serino } = action.payload
+      state.terazi.gramaj = birimAgirlik
       state.minMax = {
         birimAgirlik,
         maxad,

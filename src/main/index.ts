@@ -3,7 +3,7 @@ import { join } from 'path'
 import os from 'os'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { SerialPort } from 'serialport'
+import { SerialPort, ReadlineParser } from 'serialport'
 import Store from 'electron-store'
 
 const MESSAGES = {
@@ -12,6 +12,7 @@ const MESSAGES = {
 
 let serialPort2: SerialPort = new SerialPort({ path: 'COM3', baudRate: 9600 })
 let serialPort: SerialPort | null
+let parser: any
 
 const store = new Store()
 
@@ -52,6 +53,7 @@ function createWindow(): void {
       baudRate: 9600,
       autoOpen: true
     })
+    parser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n\n\n' }))
 
     serialPort.on('open', () => {
       dialog.showMessageBox(mainWindow, {
@@ -61,21 +63,52 @@ function createWindow(): void {
       })
     })
 
-    serialPort.on('data', (received: string) => {
+    parser?.on('data', (received) => {
       const regex = /[-+]?\d*\.\d+|\d+/g
       const matches = received.toString().match(regex)
 
-      const data = {
-        net: parseFloat(matches![0] ?? 0),
-        dara: parseFloat(matches![3] ?? 0)
-      }
+      console.log(matches)
 
-      if (data.dara <= 0.1) {
-        return dialog.showErrorBox('Hata', 'Dara Verisi Hatalı veya Girilmemiş')
-      }
+      mainWindow.webContents.send('scale-data-template', received.toString())
+      if (matches && matches.length === 4) {
+        const data = {
+          net: parseFloat(matches[0]),
+          dara: parseFloat(matches[3])
+        }
 
-      mainWindow.webContents.send('scale-data', data)
+        if (data.dara <= 0.1) {
+          return dialog.showErrorBox('Hata', 'Dara Verisi Hatalı veya Girilmemiş')
+        }
+
+        mainWindow.webContents.send('scale-data', data)
+      } else {
+        dialog.showErrorBox(
+          MESSAGES['error-title'],
+          'Teraziden gelen veri hatalı, darayı kontrol ediniz.'
+        )
+      }
     })
+
+    /* serialPort.on('data', (received: string) => {
+      const regex = /[-+]?\d*\.\d+|\d+/g
+      const matches = received.toString().match(regex)
+
+      setTimeout(() => {}, 900)
+
+      mainWindow.webContents.send('scale-data-template', received.toString())
+      if (matches && matches.length === 4) {
+        const data = {
+          net: parseFloat(matches[0]),
+          dara: parseFloat(matches[3])
+        }
+
+        if (data.dara <= 0.1) {
+          return dialog.showErrorBox('Hata', 'Dara Verisi Hatalı veya Girilmemiş')
+        }
+
+        mainWindow.webContents.send('scale-data', data)
+      }
+    }) */
   }
 
   ipcMain.on('connect-com-port', (_, data: string) => {
@@ -93,7 +126,6 @@ function createWindow(): void {
   })
 
   ipcMain.on('send-serial-data', (_, data: string) => {
-    console.log(serialPort2.isOpen)
     serialPort2.write(data)
   })
 
