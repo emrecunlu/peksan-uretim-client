@@ -31,8 +31,8 @@ function createWindow(): void {
   })
 
   const printWindow = new BrowserWindow({
-    show: false,
     parent: mainWindow,
+    show: false,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -131,7 +131,7 @@ function createWindow(): void {
 
   ipcMain.handle('get-active-port', () => serialPort)
 
-  ipcMain.handle('get-host-name', () => os.hostname())
+  ipcMain.handle('get-host-name', () => os.userInfo().username)
 
   ipcMain.handle('set-config', (_, data: any) => {
     const { key, data: el } = data

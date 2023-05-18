@@ -24,3 +24,9 @@ export interface IApiPostResult {
   success: boolean
   message: string
 }
+export interface IApiGetPaginationListResult<T> {
+  success: boolean
+  message: string
+  totalRecords: number
+  data: T[]
+}
