@@ -3,18 +3,19 @@ import { useEmployee } from '@/store/features/employee'
 import ProductionHelper from '@/utils/helpers/ProductionHelper'
 import { ProductionType } from '@/utils/interfaces/enums/ProductionType'
 
-const UretimButton = () => {
+const RenkGecisiButton = () => {
   const { workOrder } = useEmployee()
+
   return (
     <>
       <RightButton
-        disabled={!ProductionHelper.isRenkGecisi(workOrder?.yapkod ?? '', workOrder?.isemrino ?? '')}
-        value={ProductionType.Uretim}
+        disabled={ProductionHelper.isRenkGecisi(workOrder?.yapkod ?? '', workOrder?.isemrino ?? '')}
+        value={ProductionType.RenkGecisi}
       >
-        ÜRETİM
+        RENK GEÇİŞİ
       </RightButton>
     </>
   )
 }
 
-export default UretimButton
+export default RenkGecisiButton

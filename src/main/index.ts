@@ -147,11 +147,22 @@ function createWindow(): void {
     printWindow.webContents.send('print-label', data)
 
     setTimeout(() => {
-      printWindow.webContents.print({
-        silent: true,
-        printBackground: true,
-        deviceName: 'TSC TE210'
-      })
+      printWindow.webContents.print(
+        {
+          silent: true,
+          printBackground: true,
+          deviceName: 'TSC TE210'
+        },
+        (success, failure) => {
+          let res: ISlipStatus = {
+            ok: success,
+            error: failure === '' ? null : failure,
+            seriNo: data?.seriNo ?? ''
+          }
+
+          mainWindow.webContents.send('print-label', res)
+        }
+      )
     }, 500)
   })
 

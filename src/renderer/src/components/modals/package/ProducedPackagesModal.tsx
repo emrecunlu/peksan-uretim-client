@@ -8,7 +8,7 @@ import { IProducedMaterial } from '@/utils/interfaces/ProducedMaterial'
 import { Box, Divider, Button } from '@mui/material'
 import { DataGrid, GridPaginationModel, GridRowParams } from '@mui/x-data-grid'
 import producedMaterialColumns from '@/utils/columns/producedMaterialColumn'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { AiFillPrinter } from 'react-icons/ai'
 
 interface IProps {

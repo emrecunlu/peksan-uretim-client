@@ -4,6 +4,7 @@ import UretimButton from '../buttons/UretimButton'
 import NumuneButton from '../buttons/NumuneButton'
 import FireButton from '../buttons/FireButton'
 import YarimKoliButton from '../buttons/YarimKoliButon'
+import RenkGecisiButton from '../buttons/RenkGecisiButton'
 
 const RightButtonGroups = () => {
   return (
@@ -21,6 +22,7 @@ const RightButtonGroups = () => {
       <NumuneButton />
       <FireButton />
       <YarimKoliButton />
+      <RenkGecisiButton />
     </Box>
   )
 }

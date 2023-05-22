@@ -1,7 +1,5 @@
 import WorkOrderRepository from '@/repositories/WorkOrderRepository'
 import { useEmployee } from '@/store/features/employee'
-import { MESSAGES } from '@/utils/constants'
-import ToastHelper from '@/utils/helpers/ToastHelper'
 import {
   List,
   ListItem,
@@ -58,10 +56,7 @@ const WorkOrderInfoList = () => {
               disableGutters
               key={index}
             >
-              <CopyToClipboard
-                text={value.split(':')[0]}
-                onCopy={() => ToastHelper.success(MESSAGES['copy-to-clipboard'])}
-              >
+              <CopyToClipboard text={value.split(':')[0]}>
                 <ListItemButton>
                   <ListItemText
                     primary={

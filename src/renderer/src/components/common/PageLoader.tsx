@@ -9,7 +9,7 @@ const PageLoader = ({ isLoading }: IProps) => {
     <Backdrop
       open={isLoading}
       sx={{
-        zIndex: (theme) => theme.zIndex.drawer + 1
+        zIndex: (theme) => theme.zIndex.modal + 1
       }}
     >
       <CircularProgress size={48} color="inherit" />

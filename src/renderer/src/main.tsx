@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <HashRouter>
       <App />
       <ToastContainer position="bottom-right" draggable autoClose={5000} />
-     {/*  <CssBaseline /> */}
+      {/*  <CssBaseline /> */}
     </HashRouter>
   </Provider>
 )

@@ -2,7 +2,6 @@ import { GridColDef } from '@mui/x-data-grid'
 import ProductionHelper from '../helpers/ProductionHelper'
 import moment from 'moment'
 import { TIME_FORMAT } from '../constants'
-import { IProducedMaterial } from '../interfaces/ProducedMaterial'
 
 const producedItemColumns: GridColDef[] = [
   {
@@ -28,7 +27,10 @@ const producedItemColumns: GridColDef[] = [
   {
     headerName: 'Üretim Tipi',
     field: 'uretTip',
-    valueFormatter: ({ value }) => ProductionHelper.getProductionName(value),
+    valueFormatter: ({ value }) =>
+      ProductionHelper.getProductionName(value) === ''
+        ? 'Üretim'
+        : ProductionHelper.getProductionName(value),
     flex: 1
   },
   {

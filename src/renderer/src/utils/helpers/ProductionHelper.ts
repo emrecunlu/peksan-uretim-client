@@ -54,6 +54,16 @@ class ProductionHelper {
     }
     return name
   }
+
+  static isRenkGecisi(yapKod: string, workOrder: string) {
+    if (yapKod.toLowerCase() === yapKod.toLowerCase()) return true
+
+    for (let i = 100; i <= 199; i++) {
+      if (workOrder.endsWith(`-${i}`)) return true
+    }
+
+    return false
+  }
 }
 
 export default ProductionHelper

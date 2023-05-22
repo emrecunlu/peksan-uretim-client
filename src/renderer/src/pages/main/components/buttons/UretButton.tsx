@@ -19,7 +19,7 @@ const UretButton = () => {
     const shift = EmployeeHelper.getShift()
     const hostName = await window.api.getHostName()
 
-    const result = (
+    const response = (
       await ProductionRepository.addProduction({
         adet: terazi.adet,
         bAgirlik: minMax.birimAgirlik,
@@ -42,12 +42,12 @@ const UretButton = () => {
       })
     ).data
 
-    if (!result.success) {
+    if (!response.success) {
       return
     }
 
     ProductionHelper.successProduction(parseInt(workOrder!.yedek2), workOrder!.isemrino)
-    window.electron.ipcRenderer.send('print-label', result.data)
+    window.electron.ipcRenderer.send('print-label', response.data)
   }
 
   const isEnabled = useMemo(() => {

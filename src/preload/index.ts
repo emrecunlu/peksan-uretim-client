@@ -15,6 +15,11 @@ declare global {
     status: 'error' | 'success' | 'info' | 'warning'
     message: string
   }
+  interface ISlipStatus {
+    ok: boolean
+    error: string | null
+    seriNo: string
+  }
 }
 
 export interface IApi {

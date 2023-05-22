@@ -70,7 +70,7 @@ const production = createSlice({
     },
     clearScale: (state) => {
       state.terazi = {
-        gramaj: 0,
+        ...state.terazi,
         adet: 0,
         brut: 0,
         dara: 0,
@@ -105,6 +105,18 @@ const production = createSlice({
         gramaj: state.minMax.birimAgirlik,
         net
       }
+    },
+    setMinMax: (state, action: PayloadAction<IMinMax>) => {
+      const { birimAgirlik, maxad, maxkg, minad, minkg, serino } = action.payload
+      state.terazi.gramaj = birimAgirlik
+      state.minMax = {
+        birimAgirlik,
+        maxad,
+        maxkg,
+        minad,
+        minkg,
+        serino
+      }
     }
   },
   extraReducers: (builder) => {
@@ -135,6 +147,6 @@ const production = createSlice({
 })
 
 export default production.reducer
-export const { setProductionType, setAuth, setScale, setScaleCount, clearScale } =
+export const { setProductionType, setAuth, setScale, setScaleCount, clearScale, setMinMax } =
   production.actions
 export const useProduction = () => useSelector((state: RootState) => state.production)
