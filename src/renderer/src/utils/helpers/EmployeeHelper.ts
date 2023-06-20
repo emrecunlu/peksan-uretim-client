@@ -20,16 +20,19 @@ class EmployeeHelper {
 
   static getShift(): number {
     const now = moment()
-    const start = moment().hour(8)
-    const end = moment().hour(20)
 
-    if (now.isBetween(start, end, 'hour', '[]')) {
+    // Sabah 8'i temsil eden bir moment nesnesi oluşturun
+    const morning8 = moment().set({ hour: 8, minute: 0, second: 0 })
+
+    // Akşam 8'i temsil eden bir moment nesnesi oluşturun
+    const evening8 = moment().set({ hour: 20, minute: 0, second: 0 })
+
+    if (now.isBetween(morning8, evening8)) {
       return 1
     }
 
     return 2
   }
-  
 
   static getFormattedWorkorder(workOrder: string) {
     const pattern = /^0+/

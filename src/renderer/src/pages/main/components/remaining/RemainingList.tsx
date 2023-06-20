@@ -25,6 +25,8 @@ const RemainingList = () => {
     store.dispatch(fetchRemaingValue(parseInt(workOrder!.yedek2)))
   }, [store.dispatch])
 
+  const isShowAlert = produced.remaining <= 0 ? true : false
+
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={4}>
       <Box
@@ -126,6 +128,7 @@ const RemainingList = () => {
               </Typography>
               <Divider sx={{ mt: 1, mb: 2 }} />
               <Chip
+                className={`${isShowAlert ? 'pulse' : null}`}
                 variant="filled"
                 color="error"
                 label={produced.remaining}

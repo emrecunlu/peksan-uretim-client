@@ -11,6 +11,10 @@ class ScaleHelper {
       terazi.adet <= minMax.maxad
     )
   }
+
+  static countControl(terazi: ITerazi) {
+    return terazi.adet > 0
+  }
 }
 
 export default ScaleHelper

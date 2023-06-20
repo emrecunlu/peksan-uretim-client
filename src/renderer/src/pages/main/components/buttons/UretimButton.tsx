@@ -8,7 +8,7 @@ const UretimButton = () => {
   return (
     <>
       <RightButton
-        disabled={!ProductionHelper.isRenkGecisi(workOrder?.yapkod ?? '', workOrder?.isemrino ?? '')}
+        disabled={ProductionHelper.isRenkGecisi(workOrder?.yapkod ?? '')}
         value={ProductionType.Uretim}
       >
         ÜRETİM
