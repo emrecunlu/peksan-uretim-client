@@ -10,7 +10,7 @@ import PrintPage from './pages/print/PrintPage';
 import '@/assets/main.css';
 
 const App: React.FC = () => {
-	const { isLoading } = useLoader();
+	const { process } = useLoader();
 
 	/* useEffect(() => {
     document.addEventListener('keydown', (event) => {
@@ -37,7 +37,7 @@ const App: React.FC = () => {
 					<Route index element={<PrintPage />} />
 				</Route>
 			</Routes>
-			<PageLoader isLoading={isLoading} />
+			<PageLoader isLoading={process.length > 0} />
 		</>
 	);
 };

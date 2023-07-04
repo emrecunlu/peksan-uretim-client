@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import store from '@/store';
-import { set as setLoader } from '@/store/features/loader';
+import { _add, _remove, set as setLoader } from '@/store/features/loader';
 import { IApiErrorResult } from '../interfaces/ApiResult';
 import ToastHelper from '../helpers/ToastHelper';
 
@@ -10,6 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
 	(config) => {
+		store.dispatch(_add(config?.url ?? ''));
 		store.dispatch(setLoader(true));
 		return config;
 	},
@@ -20,6 +21,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
 	(res) => {
+		store.dispatch(_remove(res.config?.url ?? ''));
 		store.dispatch(setLoader(false));
 		return res;
 	},
@@ -40,6 +42,7 @@ instance.interceptors.response.use(
 			ToastHelper.error('Hata Meydana Geldi');
 		}
 
+		store.dispatch(_remove(err.config?.url ?? ''));
 		store.dispatch(setLoader(false));
 		return Promise.reject(err);
 	}

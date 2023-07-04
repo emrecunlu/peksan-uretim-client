@@ -52,7 +52,7 @@ const MainLayout = () => {
 								display: 'flex',
 							}}
 						>
-							<Outlet />
+							<Outlet />3
 						</Box>
 						<Box sx={{ width: '100%' }}>
 							<BottomButtonGroups />
