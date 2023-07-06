@@ -1,132 +1,134 @@
 * {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	text-decoration: none;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
-  width: 10cm;
-  height: 15cm;
-  page-break-after: always;
-  padding: 12px;
-  .productionType {
-    margin-bottom: 8px;
-    h1 {
-      font-weight: 700;
-      font-size: 32px;
-      text-align: center;
-    }
-  }
-  .header {
-    text-align: center;
-    > h1 {
-      font-size: 14px;
-      font-weight: 600;
-    }
-    > span {
-      text-align: center;
-      font-size: 12px;
-      display: block;
-      padding: 6px 0;
-    }
-  }
-  .table {
-    table {
-      table-layout: fixed;
-      border-collapse: collapse;
-      thead {
-        th {
-          font-weight: 600;
-          font-size: 11px;
-        }
-      }
-      tr,
-      th,
-      td {
-        border: 1px solid #000;
-      }
-      th {
-        width: calc(10cm / 4);
-        height: 25px;
-        &:nth-child(1) {
-          width: 50px;
-        }
-      }
-      td {
-        max-width: calc(10cm / 4);
-        font-size: 10px;
-        height: 40px;
-        padding: 0 6px;
-        word-wrap: break-word;
-        text-align: center;
-        &:nth-child(1) {
-          font-weight: 600;
-        }
-      }
-    }
-    .tableFooter {
-      ul {
-        display: flex;
-        flex-direction: column;
-        li {
-          display: flex;
-          h1 {
-            border: 1px solid #000;
-            border-top: 0;
-            font-size: 11px;
-            font-weight: 600;
-            display: block;
-            width: calc(21px + calc(10cm / 4));
-            border-right: 0;
-            padding: 2px 0;
-          }
-          span {
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            flex: 1;
-            border: 1px solid #000;
-            border-top: 0;
-          }
-        }
-      }
-    }
-  }
-  .codes {
-    margin-top: 12px;
-    display: flex;
-    justify-content: space-between;
-    .code {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      &:nth-child(1) {
-        span {
-          margin-bottom: 8px;
-        }
-      }
-      h1 {
-        font-size: 10px;
-        font-weight: 600;
-        padding-bottom: 4px;
-      }
-      span {
-        font-size: 14px;
-      }
-    }
-  }
+	width: 10cm;
+	height: 15cm;
+	page-break-after: always;
+	padding: 12px;
+	.productionType {
+		margin-bottom: 8px;
+		h1 {
+			font-weight: 700;
+			font-size: 32px;
+			text-align: center;
+		}
+	}
+	.header {
+		text-align: center;
+		> h1 {
+			font-size: 14px;
+			font-weight: 600;
+		}
+		> span {
+			text-align: center;
+			font-size: 12px;
+			display: block;
+			padding: 6px 0;
+		}
+	}
+	.table {
+		table {
+			table-layout: fixed;
+			border-collapse: collapse;
+			thead {
+				th {
+					font-weight: 600;
+					font-size: 11px;
+				}
+			}
+			tr,
+			th,
+			td {
+				border: 1px solid #000;
+			}
+			th {
+				height: 25px;
+			}
+			td {
+				font-size: 10px;
+				text-align: center;
+				word-wrap: break-word;
+				&:nth-child(1) {
+					font-weight: 600;
+					min-width: 50px;
+					max-width: 50px;
+				}
+				&:not(:nth-child(1)) {
+					min-width: calc((10cm / 4) - 19px);
+					max-width: calc((10cm / 4) - 19px);
+					height: 40px;
+					padding: 0 6px;
+				}
+			}
+		}
+		.tableFooter {
+			ul {
+				display: flex;
+				flex-direction: column;
+				li {
+					display: flex;
+					h1 {
+						border: 1px solid #000;
+						border-top: 0;
+						font-size: 11px;
+						font-weight: 600;
+						display: block;
+						width: calc(32px + calc(10cm / 4));
+						border-right: 0;
+						padding: 2px 0;
+					}
+					span {
+						padding-left: 4px;
+						font-size: 10px;
+						display: flex;
+						align-items: center;
+						flex: 1;
+						border: 1px solid #000;
+						border-top: 0;
+					}
+				}
+			}
+		}
+	}
+	.codes {
+		margin-top: 12px;
+		display: flex;
+		justify-content: space-between;
+		.code {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			&:nth-child(1) {
+				span {
+					margin-bottom: 8px;
+				}
+			}
+			h1 {
+				font-size: 10px;
+				font-weight: 600;
+				padding-bottom: 4px;
+			}
+			span {
+				font-size: 14px;
+			}
+		}
+	}
 }
 
 @media print {
-  @page {
-    margin: 0;
-    size: 10cm 15cm;
-  }
-  html,
-  body {
-    margin: 0;
-  }
+	@page {
+		margin: 0;
+		size: 10cm 15cm;
+	}
+	html,
+	body {
+		margin: 0;
+	}
 }

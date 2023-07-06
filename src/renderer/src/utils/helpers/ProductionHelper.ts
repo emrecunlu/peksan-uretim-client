@@ -12,6 +12,10 @@ import { MESSAGES } from '../constants';
 import { IWorkOrder } from '../interfaces/WorkOrder';
 
 class ProductionHelper {
+	static isMontage = (val: string) => {
+		return val !== 'E';
+	};
+
 	static changeProductionType(productionType: ProductionType) {
 		store.dispatch(setProductionType(productionType));
 	}

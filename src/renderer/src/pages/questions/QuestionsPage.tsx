@@ -8,6 +8,7 @@ import {
 	CardContent,
 	CardHeader,
 	Container,
+	ScopedCssBaseline,
 	TextField,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -81,92 +82,94 @@ const QuestionsPage = () => {
 	};
 
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				height: '100vh',
-				bgcolor: (theme) => theme.palette.grey[100],
-			}}
-		>
-			<Container maxWidth="lg">
-				{questions.length > 0 && (
-					<Card>
-						<CardHeader
-							title={
-								questions.length === step
-									? 'Lütfen bitir butonuna tıklayınız!'
-									: questions[step].soru
-							}
-						></CardHeader>
-						<CardContent>
-							{area && (
-								<Box sx={{ mb: 4 }}>
-									<TextField
-										value={description}
-										onChange={(e) => setDescription(e.target.value)}
-										autoFocus
-										label="Açıklama"
-										fullWidth
-										multiline
-										rows={5}
-									/>
-								</Box>
-							)}
-							{(area && (
-								<Button
-									startIcon={<AiFillSave />}
-									disabled={description === ''}
-									onClick={() => nextQuestion(false)}
-									size="large"
-									color="primary"
-									variant="contained"
-								>
-									Kaydet
-								</Button>
-							)) || (
-								<>
-									{(questions.length === step && (
-										<Button
-											startIcon={<AiFillSave />}
-											variant="contained"
-											size="large"
-											color="success"
-											onClick={handleSubmit}
-										>
-											Bitir
-										</Button>
-									)) || (
-										<>
+		<ScopedCssBaseline>
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					height: '100vh',
+					bgcolor: (theme) => theme.palette.grey[100],
+				}}
+			>
+				<Container maxWidth="lg">
+					{questions.length > 0 && (
+						<Card>
+							<CardHeader
+								title={
+									questions.length === step
+										? 'Lütfen bitir butonuna tıklayınız!'
+										: questions[step].soru
+								}
+							></CardHeader>
+							<CardContent>
+								{area && (
+									<Box sx={{ mb: 4 }}>
+										<TextField
+											value={description}
+											onChange={(e) => setDescription(e.target.value)}
+											autoFocus
+											label="Açıklama"
+											fullWidth
+											multiline
+											rows={5}
+										/>
+									</Box>
+								)}
+								{(area && (
+									<Button
+										startIcon={<AiFillSave />}
+										disabled={description === ''}
+										onClick={() => nextQuestion(false)}
+										size="large"
+										color="primary"
+										variant="contained"
+									>
+										Kaydet
+									</Button>
+								)) || (
+									<>
+										{(questions.length === step && (
 											<Button
-												onClick={() => nextQuestion(true)}
+												startIcon={<AiFillSave />}
 												variant="contained"
 												size="large"
-												color="secondary"
-												startIcon={<BsFillHandThumbsUpFill />}
+												color="success"
+												onClick={handleSubmit}
 											>
-												EVET
+												Bitir
 											</Button>
-											<Button
-												onClick={() => setArea(true)}
-												sx={{ ml: 2 }}
-												variant="contained"
-												size="large"
-												color="error"
-												startIcon={<BsHandThumbsDownFill />}
-											>
-												HAYIR
-											</Button>
-										</>
-									)}
-								</>
-							)}
-						</CardContent>
-					</Card>
-				)}
-			</Container>
-		</Box>
+										)) || (
+											<>
+												<Button
+													onClick={() => nextQuestion(true)}
+													variant="contained"
+													size="large"
+													color="secondary"
+													startIcon={<BsFillHandThumbsUpFill />}
+												>
+													EVET
+												</Button>
+												<Button
+													onClick={() => setArea(true)}
+													sx={{ ml: 2 }}
+													variant="contained"
+													size="large"
+													color="error"
+													startIcon={<BsHandThumbsDownFill />}
+												>
+													HAYIR
+												</Button>
+											</>
+										)}
+									</>
+								)}
+							</CardContent>
+						</Card>
+					)}
+				</Container>
+			</Box>
+		</ScopedCssBaseline>
 	);
 };
 

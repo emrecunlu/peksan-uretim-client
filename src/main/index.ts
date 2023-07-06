@@ -31,7 +31,6 @@ function createWindow(): void {
 	});
 
 	const printWindow = new BrowserWindow({
-		parent: mainWindow,
 		show: false,
 		webPreferences: {
 			preload: join(__dirname, '../preload/index.js'),

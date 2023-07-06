@@ -5,7 +5,7 @@ import { IApiErrorResult } from '../interfaces/ApiResult';
 import ToastHelper from '../helpers/ToastHelper';
 
 const instance = axios.create({
-	baseURL: 'http://192.168.2.250:5055/api',
+	baseURL: 'http://192.168.2.251:5066/api',
 });
 
 instance.interceptors.request.use(

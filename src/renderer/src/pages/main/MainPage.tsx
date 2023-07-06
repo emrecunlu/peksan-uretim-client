@@ -4,9 +4,12 @@ import RemainingList from '@/pages/main/components/remaining/RemainingList';
 import ProductInputGroups from '@/pages/main/components/groups/ProductionInputGroups';
 import SerialListGroup from './components/groups/SerialListGroup';
 import { useEmployee } from '@/store/features/employee';
+import ProductionHelper from '@/utils/helpers/ProductionHelper';
 
 const MainPage: React.FC = () => {
 	const { machine } = useEmployee();
+
+	console.log(machine?.description2);
 
 	return (
 		<Box
@@ -22,7 +25,7 @@ const MainPage: React.FC = () => {
 			<Box sx={{ flex: 1, gap: 4, alignItems: 'center', display: 'flex' }}>
 				<Box sx={{ display: 'flex', gap: 4, flexGrow: 1 }}>
 					<ProductInputGroups />
-					{machine?.description2 !== 'E' && (
+					{ProductionHelper.isMontage(machine?.description2 ?? '') && (
 						<Box
 							sx={{
 								height: '100%',

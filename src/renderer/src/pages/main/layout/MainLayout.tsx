@@ -1,5 +1,5 @@
 import { useEmployee } from '@/store/features/employee';
-import { Box } from '@mui/material';
+import { Box, ScopedCssBaseline } from '@mui/material';
 import { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import WorkOrderInfoList from '@/pages/main/components/workorder/WorkOrderInfoList';
@@ -33,38 +33,40 @@ const MainLayout = () => {
 	}, []);
 
 	return (
-		<Box
-			sx={{
-				height: '100vh',
-				width: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-			}}
-		>
-			<Header />
-			<Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex' }}>
-				<WorkOrderInfoList />
-				<Box sx={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
-					<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-						<Box
-							sx={{
-								flex: 1,
-								display: 'flex',
-							}}
-						>
-							<Outlet />3
+		<ScopedCssBaseline>
+			<Box
+				sx={{
+					height: '100vh',
+					width: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+				}}
+			>
+				<Header />
+				<Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex' }}>
+					<WorkOrderInfoList />
+					<Box sx={{ flex: 1, display: 'flex', flexDirection: 'row' }}>
+						<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+							<Box
+								sx={{
+									flex: 1,
+									display: 'flex',
+								}}
+							>
+								<Outlet />
+							</Box>
+							<Box sx={{ width: '100%' }}>
+								<BottomButtonGroups />
+							</Box>
 						</Box>
-						<Box sx={{ width: '100%' }}>
-							<BottomButtonGroups />
+						<Box>
+							<RightButtonGroups />
 						</Box>
-					</Box>
-					<Box>
-						<RightButtonGroups />
 					</Box>
 				</Box>
+				<MinMaxControlModal />
 			</Box>
-			<MinMaxControlModal />
-		</Box>
+		</ScopedCssBaseline>
 	);
 };
 

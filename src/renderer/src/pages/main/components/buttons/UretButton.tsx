@@ -10,6 +10,8 @@ import EmployeeHelper from '@/utils/helpers/EmployeeHelper';
 import ProductionHelper from '@/utils/helpers/ProductionHelper';
 import ScaleHelper from '@/utils/helpers/ScaleHelper';
 import { useProduction } from '@/store/features/production';
+import store from '@/store';
+import { fetchAssemblySeries } from '@/store/features/assembly';
 
 const UretButton = () => {
 	const { productionType, terazi, minMax } = useProduction();
@@ -40,7 +42,13 @@ const UretButton = () => {
 			sipNo: null,
 		}).then((response) => {
 			ProductionHelper.successProduction(workOrder);
-			window.electron.ipcRenderer.send('print-label', response.data);
+			window.electron.ipcRenderer.send('print-label', response.data.data);
+
+			console.log(response.data);
+
+			if (ProductionHelper.isMontage(machine?.description2 ?? '')) {
+				store.dispatch(fetchAssemblySeries(workOrder?.isemrino ?? ''));
+			}
 		});
 	};
 

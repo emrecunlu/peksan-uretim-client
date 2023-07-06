@@ -34,9 +34,9 @@ class ProductionRepository {
     )
   }
 
-  static async getProducedLabel(serialNo: string, uretTip: number) {
+  static async getProducedLabel(serialNo: string, uretTip: number, machineType: string) {
     return instance.get<IApiGetObjectResult<IProductLabel>>(
-      `${this._uri}/produced-label?serialNo=${serialNo}&uretTip=${uretTip}`
+      `${this._uri}/produced-label?serialNo=${serialNo}&uretTip=${uretTip}&macType=${machineType}`
     )
   }
 }
