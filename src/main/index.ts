@@ -32,6 +32,7 @@ function createWindow(): void {
 
 	const printWindow = new BrowserWindow({
 		show: false,
+		parent: mainWindow,
 		webPreferences: {
 			preload: join(__dirname, '../preload/index.js'),
 			sandbox: false,
@@ -70,8 +71,6 @@ function createWindow(): void {
 		parser?.on('data', (received) => {
 			const regex = /[-+]?\d*\.\d+|\d+/g;
 			const matches = received.toString().match(regex);
-
-			console.log(matches);
 
 			mainWindow.webContents.send('scale-data-template', received.toString());
 			if (matches && matches.length === 4) {

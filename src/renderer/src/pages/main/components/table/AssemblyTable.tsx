@@ -23,7 +23,7 @@ const AssemblyTable = ({ data, type }: Props) => {
 	const { materials } = useAssembly();
 
 	const totalAmount = useMemo(() => {
-		return data?.data.reduce((prev, curr) => prev + curr.quantity, 0) ?? 0;
+		return data?.data.reduce((prev, curr) => prev + curr.remaining, 0) ?? 0;
 	}, [materials]);
 
 	return (
